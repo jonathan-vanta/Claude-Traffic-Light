@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-orientation="horizontal">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Claude Traffic Light</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="widget" id="widget" aria-label="Claude session status">
+      <div class="lights" role="img" aria-label="No active Claude sessions">
+        <span class="light red" aria-hidden="true"></span>
+        <span class="light yellow" aria-hidden="true"></span>
+        <span class="light green" aria-hidden="true"></span>
+      </div>
+      <div class="status">
+        <span id="label">No sessions</span>
+        <span id="count" class="count">0 active</span>
+      </div>
+      <button class="info" id="info" type="button" aria-label="Show sessions" aria-expanded="false">i</button>
+    </main>
+
+    <section class="bubble" id="bubble" role="dialog" aria-label="Sessions" hidden>
+      <div class="tail" id="tail"></div>
+      <h2>Sessions</h2>
+      <ul id="sessions"></ul>
+    </section>
+    <script src="./main.js"></script>
+  </body>
+</html>

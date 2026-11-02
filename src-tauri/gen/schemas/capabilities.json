@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Window controls for the traffic light widget","local":true,"windows":["main"],"permissions":["core:window:allow-start-dragging"]}}

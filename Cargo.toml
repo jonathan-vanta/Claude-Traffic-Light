@@ -1,0 +1,4 @@
+[workspace]
+members = ["crates/ctl-core", "crates/ctl-hook", "src-tauri"]
+resolver = "2"
+default-members = ["crates/ctl-core", "crates/ctl-hook"]
