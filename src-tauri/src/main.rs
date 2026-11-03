@@ -13,11 +13,13 @@ use tauri::{LogicalPosition, LogicalSize, Manager, State, WebviewWindow};
 
 /// Space between the widget and the speech bubble, including the tail.
 const TAIL_GAP: f64 = 10.0;
+/// Transparent margin around the content so its drop shadow isn't clipped by the window edge.
+const SHADOW_PAD: f64 = 16.0;
 
 pub struct Shared {
     pub prefs: Mutex<Preferences>,
     pub sound_files: Mutex<Vec<String>>,
-    /// Logical offset of the widget inside the window (non-zero while a popup is open).
+    /// Logical offset of the widget inside the window (`SHADOW_PAD`, plus more while a popup is open).
     widget_offset: Mutex<(f64, f64)>,
     pub audio: Audio,
 }
@@ -92,6 +94,7 @@ fn set_layout(
     let origin_y = f64::from(position.y) / scale + offset.1;
 
     let has_popup = popup_w > 0.0 && popup_h > 0.0;
+    // `width`/`height` and `new_offset` describe the visible content; SHADOW_PAD is added around it.
     let width = if has_popup { widget_w.max(popup_w) } else { widget_w };
     let mut height = widget_h;
     let mut new_offset = (0.0, 0.0);
@@ -122,13 +125,17 @@ fn set_layout(
         }
     }
 
+    let new_offset = (new_offset.0 + SHADOW_PAD, new_offset.1 + SHADOW_PAD);
     let new_x = origin_x - new_offset.0;
     let new_y = origin_y - new_offset.1;
     window
         .set_position(LogicalPosition::new(new_x.round(), new_y.round()))
         .map_err(|e| e.to_string())?;
     window
-        .set_size(LogicalSize::new(width.ceil(), height.ceil()))
+        .set_size(LogicalSize::new(
+            (width + 2.0 * SHADOW_PAD).ceil(),
+            (height + 2.0 * SHADOW_PAD).ceil(),
+        ))
         .map_err(|e| e.to_string())?;
     *offset = new_offset;
 
@@ -145,7 +152,7 @@ fn main() {
     let shared = Arc::new(Shared {
         prefs: Mutex::new(prefs),
         sound_files: Mutex::new(Vec::new()),
-        widget_offset: Mutex::new((0.0, 0.0)),
+        widget_offset: Mutex::new((SHADOW_PAD, SHADOW_PAD)),
         audio,
     });
     shared.rescan_sounds();

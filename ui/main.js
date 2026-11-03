@@ -13,6 +13,7 @@ const tail = document.querySelector("#tail");
 const sessionList = document.querySelector("#sessions");
 
 const GAP = 10; // must match TAIL_GAP in src-tauri/src/main.rs
+const PAD = 16; // must match SHADOW_PAD in src-tauri/src/main.rs
 const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
 let prefs = null;
@@ -117,11 +118,14 @@ async function layout() {
   }
 
   bubble.classList.toggle("above", placement.popup_above);
-  bubble.style.top = placement.popup_above ? "0px" : `${widgetH + GAP}px`;
+  bubble.style.left = `${PAD}px`;
+  bubble.style.top = placement.popup_above
+    ? `${placement.offset_y - GAP - popupH}px`
+    : `${placement.offset_y + widgetH + GAP}px`;
 
   // Point the tail at the centre of the ⓘ dot.
   const dot = info.getBoundingClientRect();
-  const dotCenter = dot.left + dot.width / 2;
+  const dotCenter = dot.left + dot.width / 2 - PAD;
   const inset = 16;
   tail.style.left = `${Math.min(Math.max(dotCenter, inset), popupW - inset)}px`;
   bubble.style.visibility = "visible";

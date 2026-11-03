@@ -5,6 +5,8 @@
   --u: calc(1px * var(--s));
   --pu: calc(1px * var(--p));
   --gap: 10px; /* must match TAIL_GAP in src-tauri/src/main.rs */
+  /* Must fit inside SHADOW_PAD (16px) in src-tauri/src/main.rs or it gets clipped. */
+  --elevation: 0 1px 2px var(--shadow), 0 4px 12px var(--shadow);
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: transparent;
@@ -62,12 +64,13 @@ body {
   align-items: center;
   gap: calc(12 * var(--u));
   width: max-content;
-  min-width: calc(154 * var(--u));
-  min-height: calc(58 * var(--u));
-  padding: calc(8 * var(--u)) calc(16 * var(--u)) calc(8 * var(--u)) calc(20 * var(--u));
+  min-width: calc(136 * var(--u));
+  min-height: calc(39 * var(--u));
+  padding: calc(4 * var(--u)) calc(8 * var(--u)) calc(4 * var(--u)) calc(10 * var(--u));
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--surface);
+  box-shadow: var(--elevation);
   color: var(--fg);
   user-select: none;
   cursor: grab;
@@ -141,9 +144,9 @@ body {
 /* Vertical: lights stacked, text centred beneath, ⓘ dot at the bottom. */
 :root[data-orientation="vertical"] .widget {
   flex-direction: column;
-  min-width: calc(66 * var(--u));
-  min-height: calc(154 * var(--u));
-  padding: calc(22 * var(--u)) calc(10 * var(--u)) calc(16 * var(--u));
+  min-width: calc(56 * var(--u));
+  min-height: calc(135 * var(--u));
+  padding: calc(11 * var(--u)) calc(5 * var(--u)) calc(8 * var(--u));
   gap: calc(10 * var(--u));
   text-align: center;
 }
@@ -161,10 +164,11 @@ body {
   left: 0;
   width: calc(300 * var(--pu));
   max-height: calc(340 * var(--pu));
-  padding: calc(12 * var(--pu)) calc(14 * var(--pu));
+  padding: calc(6 * var(--pu)) calc(7 * var(--pu));
   border: 1px solid var(--border);
-  border-radius: calc(14 * var(--pu));
+  border-radius: calc(12 * var(--pu));
   background: var(--surface);
+  box-shadow: var(--elevation);
   color: var(--fg);
   font-size: calc(13 * var(--pu));
   overflow: visible;
@@ -196,14 +200,14 @@ body {
 }
 
 .bubble h2 {
-  margin: 0 0 calc(8 * var(--pu));
+  margin: calc(2 * var(--pu)) calc(2 * var(--pu)) calc(6 * var(--pu));
   font-size: 1em;
   font-weight: 650;
 }
 
 #sessions {
   display: grid;
-  gap: calc(6 * var(--pu));
+  gap: calc(4 * var(--pu));
   margin: 0;
   padding: 0;
   list-style: none;
@@ -216,8 +220,8 @@ body {
   grid-template-columns: auto 1fr;
   gap: 0 calc(8 * var(--pu));
   align-items: center;
-  padding: calc(7 * var(--pu)) calc(9 * var(--pu));
-  border-radius: calc(9 * var(--pu));
+  padding: calc(4 * var(--pu)) calc(6 * var(--pu));
+  border-radius: calc(7 * var(--pu));
   background: var(--row);
 }
 
